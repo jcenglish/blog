@@ -4,16 +4,16 @@ const morgan = require('morgan')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const sessionStore = new SequelizeStore({db})
+//const SequelizeStore = require('connect-session-sequelize')(session.Store)
+//const sessionStore = new SequelizeStore({db})
 const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
 module.exports = app
 
-if (process.env.NODE_ENV === 'test') {
-  after('close the session store', () => sessionStore.stopExpiringSessions())
-}
+// if (process.env.NODE_ENV === 'test') {
+//   after('close the session store', () => sessionStore.stopExpiringSessions())
+// }
 
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
@@ -45,7 +45,7 @@ const initApp = () => {
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'I like pineapple pizza.',
-      store: sessionStore,
+      //store: sessionStore,
       resave: false,
       saveUninitialized: false
     })
@@ -54,8 +54,8 @@ const initApp = () => {
   app.use(passport.session())
 
   // auth and api routes
-  app.use('/auth', require('./auth'))
-  app.use('/api', require('./api'))
+  //app.use('/auth', require('./auth'))
+  //app.use('/api', require('./api'))
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -90,8 +90,8 @@ const startListening = () => {
 }
 
 async function startApp() {
-  await sessionStore.sync()
-  db.on('connected', async function() {
+  //await sessionStore.sync()
+  await db.on('connected', async function() {
     await initApp()
     await startListening()
   })

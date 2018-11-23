@@ -1,10 +1,10 @@
 const Article = require('./article')
 const Image = require('./image')
 const Tag = require('./tag')
-// const User = require('./user')
+const User = require('./user')
 
 module.exports = {
-  // User,
+  User,
   Article,
   Image,
   Tag

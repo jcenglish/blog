@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.DB_URL)
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
+
+mongoose.connect(
+  process.env.DB_URL,
+  {useNewUrlParser: true}
+)
 
 const db = mongoose.connection
 
