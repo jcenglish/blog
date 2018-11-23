@@ -6,14 +6,30 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const sessionStore = new SequelizeStore({db})
-const db = require('../db')
+const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
 module.exports = app
 
-// TODO: user handling
+if (process.env.NODE_ENV === 'test') {
+  after('close the session store', () => sessionStore.stopExpiringSessions())
+}
 
-const createApp = () => {
+if (process.env.NODE_ENV !== 'production') require('../secrets')
+
+// passport registration
+passport.serializeUser((user, done) => done(null, user.id))
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await db.models.user.findById(id)
+    done(null, user)
+  } catch (err) {
+    done(err)
+  }
+})
+
+const initApp = () => {
   // logging middleware
   app.use(morgan('dev'))
 
@@ -70,16 +86,19 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () =>
-    console.log(`Go to: http://localhost:${PORT}`)
-  )
+  app.listen(PORT, () => console.log(`Go to: http://localhost:${PORT}`))
 }
 
-// TODO: Database connection
-
-async function bootApp() {
+async function startApp() {
   await sessionStore.sync()
-  //await DB connection
-  await createApp()
-  await startListening()
+  db.on('connected', async function() {
+    await initApp()
+    await startListening()
+  })
+}
+
+if (require.main === module) {
+  startApp()
+} else {
+  initApp()
 }

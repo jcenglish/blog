@@ -5,7 +5,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  entry: String,
+  body: String,
   headerImage: imageSchema,
   images: [imageSchema],
   tags: [tagSchema],
@@ -18,6 +18,10 @@ const articleSchema = new mongoose.Schema({
   dateUpdated: Date,
   dateDeleted: Date
 })
+
+articleSchema.query.byTag = function(tagId) {
+  return this.where({})
+}
 
 const Article = mongoose.model('Article', articleSchema)
 
