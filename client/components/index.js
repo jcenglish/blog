@@ -1,5 +1,4 @@
 export {default as Nav} from './Nav'
-export {default as NavItem} from './NavItem'
 export {default as HomeView} from './Home'
 export {default as BlogView} from './Blog'
 export {default as Tags} from './Blog/Tags'

@@ -14,7 +14,7 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" component={HomeView} />
+        <Route exact path="/" component={HomeView} />
         <Route path="/blog" component={BlogView} />
       </Switch>
     )
