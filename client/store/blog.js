@@ -26,7 +26,7 @@ const requestedArticles = () => ({type: REQUESTED_ARTICLES})
 /**
  * THUNK CREATORS
  */
-export const getArticles = () => dispatch => {
+export const getArticlesPublished = () => dispatch => {
   dispatch(requestedArticles())
   try {
     axios.get('/api/blog/articles/published').then(res => {

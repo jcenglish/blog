@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getArticles} from '../../store'
+import {getArticlesPublished} from '../../store'
 import {Article} from '../../components'
 
 class Articles extends React.Component {
@@ -9,7 +9,7 @@ class Articles extends React.Component {
   // }
 
   componentDidMount() {
-    this.props.getArticles()
+    this.props.getArticlesPublished()
     console.log('COMPONENT DID MOUNT', this.props.articles)
   }
 
@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getArticles: () => dispatch(getArticles())
+    getArticlesPublished: () => dispatch(getArticlesPublished())
   }
 }
 

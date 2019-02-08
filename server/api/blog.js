@@ -5,6 +5,7 @@ const {Article} = require('../db')
 router.get('/articles/published', async (req, res, next) => {
   await Article.find()
     .isPublished()
+    .sort({datePublished: 'desc'})
     .then(articles => {
       res.send(articles)
     })
