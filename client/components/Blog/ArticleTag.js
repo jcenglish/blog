@@ -2,7 +2,7 @@ import React from 'react'
 
 const ArticleTag = props => {
   const {tag} = props
-  return <div>{tag.name}</div>
+  return <span>{tag.name}</span>
 }
 
 export default ArticleTag
