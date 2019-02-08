@@ -4,28 +4,36 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GOT_POST = 'GOT_POST'
+// const GOT_ARTICLE = 'GOT_ARTICLE'
+const GOT_ARTICLES = 'GOT_ARTICLES'
+const REQUESTED_ARTICLES = 'REQUESTED_ARTICLES'
 
 /**
  * INITIAL STATE
  */
-const initialState = {}
+const initialState = {
+  articles: [],
+  isFetching: false
+}
 
 /**
  * ACTION CREATORS
  */
-const gotPost = post => ({type: GOT_POST, post})
+// const gotArticle = article => ({type: GOT_ARTICLE, article})
+const gotArticles = articles => ({type: GOT_ARTICLES, articles})
+const requestedArticles = () => ({type: REQUESTED_ARTICLES})
 
 /**
  * THUNK CREATORS
  */
-export const getPost = postId => async dispatch => {
+export const getArticles = () => dispatch => {
+  dispatch(requestedArticles())
   try {
-    await axios.get(`/blog/${postId}`)
-    dispatch(gotPost())
-    history.push('/')
+    axios.get('/api/blog/articles').then(res => {
+      dispatch(gotArticles(res.data))
+    })
   } catch (err) {
-    console.error(err)
+    console.error('Get articles did not succeed', err)
   }
 }
 
@@ -34,8 +42,12 @@ export const getPost = postId => async dispatch => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GOT_POST:
-      return action.post
+    // case GOT_ARTICLE:
+    //   return action.article
+    case REQUESTED_ARTICLES:
+      return {...state, isFetching: true}
+    case GOT_ARTICLES:
+      return {...state, articles: action.articles, isFetching: false}
     default:
       return state
   }
