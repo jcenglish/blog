@@ -29,7 +29,7 @@ const requestedArticles = () => ({type: REQUESTED_ARTICLES})
 export const getArticles = () => dispatch => {
   dispatch(requestedArticles())
   try {
-    axios.get('/api/blog/articles').then(res => {
+    axios.get('/api/blog/articles/published').then(res => {
       dispatch(gotArticles(res.data))
     })
   } catch (err) {

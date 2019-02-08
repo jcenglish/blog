@@ -28,6 +28,10 @@ articleSchema.query.byTag = function(tagId) {
   return this.where({})
 }
 
+articleSchema.query.isPublished = function() {
+  return this.where({datePublished: {$ne: null}})
+}
+
 const Article = mongoose.model('Article', articleSchema)
 
 module.exports = Article

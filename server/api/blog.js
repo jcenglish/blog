@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 const {Article} = require('../db')
 
-router.get('/articles', async (req, res, next) => {
+router.get('/articles/published', async (req, res, next) => {
   await Article.find()
+    .isPublished()
     .then(articles => {
       res.send(articles)
     })
