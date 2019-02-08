@@ -1,8 +1,8 @@
 import React from 'react'
-import {} from '../../components'
 
-const ArticleTag = () => {
-  return <div>Article Tag</div>
+const ArticleTag = props => {
+  const {tag} = props
+  return <div>{tag.name}</div>
 }
 
 export default ArticleTag
