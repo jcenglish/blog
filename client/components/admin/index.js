@@ -1,11 +1,11 @@
 import React, {Fragment} from 'react'
-import {Nav} from '../../components'
-
+import {AdminNav} from '../../components'
+import Routes from './routes'
 class BlogView extends React.Component {
   render() {
     return (
       <>
-        <Nav />
+        <AdminNav />
         <Routes />
       </>
     )

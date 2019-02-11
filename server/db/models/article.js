@@ -12,7 +12,12 @@ const articleSchema = new mongoose.Schema(
     headerImage: imageSchema,
     images: [imageSchema],
     tags: [tagSchema],
-    datePublished: Date,
+    datePublished: {
+      // FIX
+      type: Date,
+      default: Date.now,
+      required: true
+    },
     dateCreated: {
       type: Date,
       default: Date.now,
@@ -24,9 +29,9 @@ const articleSchema = new mongoose.Schema(
   {collection: 'Article'}
 )
 
-articleSchema.query.byTag = function(tagId) {
-  return this.where({})
-}
+// articleSchema.query.byTag = function(tagId) {
+//   return this.where({})
+// }
 
 articleSchema.query.isPublished = function() {
   return this.where({datePublished: {$ne: null}})

@@ -7,6 +7,7 @@ import history from '../history'
 // const GOT_ARTICLE = 'GOT_ARTICLE'
 const GOT_ARTICLES = 'GOT_ARTICLES'
 const REQUESTED_ARTICLES = 'REQUESTED_ARTICLES'
+const CREATED_ARTICLE = 'CREATED_ARTICLE'
 
 /**
  * INITIAL STATE
@@ -22,10 +23,20 @@ const initialState = {
 // const gotArticle = article => ({type: GOT_ARTICLE, article})
 const gotArticles = articles => ({type: GOT_ARTICLES, articles})
 const requestedArticles = () => ({type: REQUESTED_ARTICLES})
+const createdArticle = article => ({
+  type: CREATED_ARTICLE,
+  article
+})
 
 /**
  * THUNK CREATORS
  */
+export const createArticle = article => dispatch => {
+  axios
+    .post('/api/blog/articles', article)
+    .then(res => dispatch(createArticle(res.data)))
+}
+
 export const getArticlesPublished = () => dispatch => {
   dispatch(requestedArticles())
   try {
